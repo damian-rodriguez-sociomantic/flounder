@@ -13,6 +13,8 @@ export const defaultOptions = {
     multiple                : false,
     multipleTags            : false,
     multipleMessage         : `(Multiple Items Selected)`,
+    noMoreOptionsText       : `No more recipients to add.`,
+    noResultsText           : `No matches found.`,
     onClose                 : function( e, selectedValues ){},
     onComponentDidMount     : function(){},
     onComponentWillUnmount  : function(){},

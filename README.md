@@ -138,6 +138,8 @@ If flounder is fed an element that already has a flounder, it will destroy it an
     multiple                : false,
     multipleTags            : false,
     multipleMessage         : '(Multiple Items Selected)',
+    noMoreOptionsText       : 'No more recipients to add.',
+    noResultsText           : 'No matches found.',
     onClose                 : function( e, valueArray ){},
     onComponentDidMount     : function(){},
     onComponentWillUnmount  : function(){},
@@ -174,6 +176,10 @@ If flounder is fed an element that already has a flounder, it will destroy it an
 + `multipleTags` - (boolean) Determines how a multi-select box is displayed
 
 + `multipleMessage` - (string) If there are no tags, this is the message that will be displayed in the selected area when there are multiple options selected
+
++ `noMoreOptionsText` - (string) text displayed when multipleTags is true and there aren't more options to select,
+
++ `noResultsText` - (string) text displayed when the search is true and its value doesn't match any option
 
 + `onClose` - (function) Triggered when the selectbox is closed
 
@@ -461,7 +467,7 @@ Change Log
 + api
     + fixed a bug in deselectAll where tags would remain
 
-    
+
 0.8.3
 -----
 

@@ -22,7 +22,7 @@ class Flounder
         let classes     = this.classes;
         let noMoreOptionsEl = this.refs.noMoreOptionsEl || utils.constructElement( { className : classes.NO_RESULTS } );
 
-        noMoreOptionsEl.innerHTML = 'No more recipients to add.';
+        noMoreOptionsEl.innerHTML = this.props.noMoreOptionsText !== undefined ? this.props.noMoreOptionsText : defaultOptions.noMoreOptionsText;
         this.refs.optionsList.appendChild( noMoreOptionsEl );
 
         this.refs.noMoreOptionsEl = noMoreOptionsEl;
@@ -41,7 +41,7 @@ class Flounder
         let classes     = this.classes;
         let noResultsEl = this.refs.noResultsEl || utils.constructElement( { className : classes.NO_RESULTS } );
 
-        noResultsEl.innerHTML = 'No matches found';
+        noResultsEl.innerHTML = this.props.noResultsText !== undefined ? this.props.noResultsText : defaultOptions.noResultsText;
         this.refs.optionsList.appendChild( noResultsEl );
 
         this.refs.noResultsEl = noResultsEl;
