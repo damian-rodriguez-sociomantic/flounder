@@ -6,7 +6,7 @@
  * Released under the MIT license
  * https://github.com/sociomantic-tsunami/flounder/license
  *
- * Date: Wed Jul 20 2016
+ * Date: Tue Sep 20 2016
  * "This, so far, is the best Flounder ever"
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -2309,6 +2309,8 @@ var defaultOptions = {
     multiple: false,
     multipleTags: false,
     multipleMessage: '(Multiple Items Selected)',
+    noMoreOptionsText: 'No more recipients to add.',
+    noResultsText: 'No matches found.',
     onClose: function onClose(e, selectedValues) {},
     onComponentDidMount: function onComponentDidMount() {},
     onComponentWillUnmount: function onComponentWillUnmount() {},
@@ -3303,7 +3305,7 @@ var Flounder = (function () {
             var classes = this.classes;
             var noMoreOptionsEl = this.refs.noMoreOptionsEl || _utils2['default'].constructElement({ className: classes.NO_RESULTS });
 
-            noMoreOptionsEl.innerHTML = 'No more recipients to add.';
+            noMoreOptionsEl.innerHTML = this.props.noMoreOptionsText !== undefined ? this.props.noMoreOptionsText : _defaults.defaultOptions.noMoreOptionsText;
             this.refs.optionsList.appendChild(noMoreOptionsEl);
 
             this.refs.noMoreOptionsEl = noMoreOptionsEl;
@@ -3322,7 +3324,7 @@ var Flounder = (function () {
             var classes = this.classes;
             var noResultsEl = this.refs.noResultsEl || _utils2['default'].constructElement({ className: classes.NO_RESULTS });
 
-            noResultsEl.innerHTML = 'No matches found';
+            noResultsEl.innerHTML = this.props.noResultsText !== undefined ? this.props.noResultsText : _defaults.defaultOptions.noResultsText;
             this.refs.optionsList.appendChild(noResultsEl);
 
             this.refs.noResultsEl = noResultsEl;
