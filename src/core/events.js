@@ -670,7 +670,7 @@ const events = {
         }
 
         this.___forceMultiple   = false;
-        let target              = e.target;
+        let target              = e.currentTarget;
 
         utils.toggleClass( target, selectedClass );
         index                   = target.getAttribute( `data-index` );
