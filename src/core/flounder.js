@@ -328,8 +328,18 @@ class Flounder
 
                 let matches = this.search.isThereAnythingRelatedTo( val );
 
-                if ( matches )
+                let selectedValues = this.refs.selected.getAttribute( `data-value` ).split( ',' );
+
+                if( matches )
                 {
+                    let filteredMatches = matches.filter( ( match, i ) =>
+                                            {
+                                                if( selectedValues.indexOf( match.d.value ) === -1 )
+                                                {
+                                                    return match;
+                                                }
+                                            });
+
                     let data    = this.refs.data;
                     let classes = this.classes;
 
@@ -345,7 +355,8 @@ class Flounder
 
                     if( !this.refs.noMoreOptionsEl )
                     {
-                        if( matches.length === 0 )
+
+                        if( filteredMatches.length === 0 && val.length !== 0 )
                         {
                             this.addNoResultsMessage();
                         }
@@ -397,6 +408,7 @@ class Flounder
         } );
 
         refs.search.value = ``;
+        this.removeNoResultsMessage();
     }
 
 
@@ -508,6 +520,8 @@ class Flounder
 
         let selectedOptions = this.getSelected();
 
+        refs.search.value = ``;
+
         utils.removeClass( data[ targetIndex ], classes.SELECTED_HIDDEN );
         utils.removeClass( data[ targetIndex ], classes.SELECTED );
 
@@ -541,6 +555,8 @@ class Flounder
         if( this.lastSearchEvent  )
         {
             this.fuzzySearch( this.lastSearchEvent );
+            this.removeNoResultsMessage();
+            this.removeNoMoreOptionsMessage();
         }
 
         selected.setAttribute( `data-value`, value );
