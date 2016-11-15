@@ -6,7 +6,7 @@
  * Released under the MIT license
  * https://github.com/sociomantic-tsunami/flounder/license
  *
- * Date: Wed Oct 26 2016
+ * Date: Tue Nov 15 2016
  * "This, so far, is the best Flounder ever"
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -3592,34 +3592,45 @@ var Flounder = (function () {
                 var keyCode = e.keyCode;
 
                 if (keyCode !== 38 && keyCode !== 40 && keyCode !== 13 && keyCode !== 27) {
-                    var val = e.target.value.trim();
+                    (function () {
+                        var val = e.target.value.trim();
 
-                    var matches = this.search.isThereAnythingRelatedTo(val);
+                        var matches = _this3.search.isThereAnythingRelatedTo(val);
 
-                    if (matches) {
-                        (function () {
-                            var data = _this3.refs.data;
-                            var classes = _this3.classes;
+                        var selectedValues = _this3.refs.selected.getAttribute('data-value').split(',');
 
-                            data.forEach(function (el, i) {
-                                _utils2['default'].addClass(el, classes.SEARCH_HIDDEN);
-                            });
+                        if (matches) {
+                            (function () {
+                                var filteredMatches = matches.filter(function (match, i) {
+                                    if (selectedValues.indexOf(match.d.value) === -1) {
+                                        return match;
+                                    }
+                                });
 
-                            matches.forEach(function (e) {
-                                _utils2['default'].removeClass(data[e.i], classes.SEARCH_HIDDEN);
-                            });
+                                var data = _this3.refs.data;
+                                var classes = _this3.classes;
 
-                            if (!_this3.refs.noMoreOptionsEl) {
-                                if (matches.length === 0) {
-                                    _this3.addNoResultsMessage();
-                                } else {
-                                    _this3.removeNoResultsMessage();
+                                data.forEach(function (el, i) {
+                                    _utils2['default'].addClass(el, classes.SEARCH_HIDDEN);
+                                });
+
+                                matches.forEach(function (e) {
+                                    _utils2['default'].removeClass(data[e.i], classes.SEARCH_HIDDEN);
+                                });
+
+                                if (!_this3.refs.noMoreOptionsEl) {
+
+                                    if (filteredMatches.length === 0 && val.length !== 0) {
+                                        _this3.addNoResultsMessage();
+                                    } else {
+                                        _this3.removeNoResultsMessage();
+                                    }
                                 }
-                            }
-                        })();
-                    } else {
-                        this.fuzzySearchReset();
-                    }
+                            })();
+                        } else {
+                            _this3.fuzzySearchReset();
+                        }
+                    })();
                 } else if (keyCode === 27) {
                     this.fuzzySearchReset();
                     this.toggleList(e, 'close');
@@ -3651,6 +3662,7 @@ var Flounder = (function () {
             });
 
             refs.search.value = '';
+            this.removeNoResultsMessage();
         }
 
         /**
@@ -3752,6 +3764,8 @@ var Flounder = (function () {
 
             var selectedOptions = this.getSelected();
 
+            refs.search.value = '';
+
             _utils2['default'].removeClass(data[targetIndex], classes.SELECTED_HIDDEN);
             _utils2['default'].removeClass(data[targetIndex], classes.SELECTED);
 
@@ -3779,6 +3793,8 @@ var Flounder = (function () {
 
             if (this.lastSearchEvent) {
                 this.fuzzySearch(this.lastSearchEvent);
+                this.removeNoResultsMessage();
+                this.removeNoMoreOptionsMessage();
             }
 
             selected.setAttribute('data-value', value);
