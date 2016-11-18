@@ -100,18 +100,10 @@ export const setDefaultOption = ( self, configObj, data = [], rebuild = false ) 
 
                 select.insertBefore( defaultOption, select[ 0 ] );
                 self.refs.selectOptions.unshift( defaultOption );
-                data.unshift( _default );
             }
-            else
-            {
-                data.unshift( _default );
-            }
-        }
-        else
-        {
-            data.unshift( _default );
         }
 
+        data.unshift( _default );
 
         return _default;
     };
