@@ -2,11 +2,11 @@
  * Flounder JavaScript Stylable Selectbox v0.8.5
  * https://github.com/sociomantic-tsunami/flounder
  *
- * Copyright 2015-2016 Sociomantic Labs and other contributors
+ * Copyright 2015-2017 Sociomantic Labs and other contributors
  * Released under the MIT license
  * https://github.com/sociomantic-tsunami/flounder/license
  *
- * Date: Tue Nov 15 2016
+ * Date: Wed Jan 25 2017
  * "This, so far, is the best Flounder ever"
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -157,9 +157,12 @@ function flush() {
 
 // Safari 6 and 6.1 for desktop, iPad, and iPhone are the only browsers that
 // have WebKitMutationObserver but not un-prefixed MutationObserver.
-// Must use `global` instead of `window` to work in both frames and web
+// Must use `global` or `self` instead of `window` to work in both frames and web
 // workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
-var BrowserMutationObserver = global.MutationObserver || global.WebKitMutationObserver;
+
+/* globals self */
+var scope = typeof global !== "undefined" ? global : self;
+var BrowserMutationObserver = scope.MutationObserver || scope.WebKitMutationObserver;
 
 // MutationObservers are desirable because they have high priority and work
 // reliably everywhere they are implemented.
@@ -2309,7 +2312,7 @@ var defaultOptions = {
     multiple: false,
     multipleTags: false,
     multipleMessage: '(Multiple Items Selected)',
-    noMoreOptionsText: 'No more recipients to add.',
+    noMoreOptionsText: 'No more options to add.',
     noResultsText: 'No matches found.',
     onClose: function onClose(e, selectedValues) {},
     onComponentDidMount: function onComponentDidMount() {},
@@ -2392,13 +2395,10 @@ var setDefaultOption = function setDefaultOption(self, configObj) {
 
                 select.insertBefore(defaultOption, select[0]);
                 self.refs.selectOptions.unshift(defaultOption);
-                data.unshift(_default);
-            } else {
-                data.unshift(_default);
             }
-        } else {
-            data.unshift(_default);
         }
+
+        data.unshift(_default);
 
         return _default;
     };
